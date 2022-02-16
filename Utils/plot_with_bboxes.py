@@ -6,13 +6,7 @@ import sys
 
 
 # Yolo format: [x_center, y_center, width, height] (normalized)
-def plot_yolo(image, bboxes, colors=[], labels=[], name='', plot=False):
-    # fig, ax = plt.subplots()
-    # DPI = fig.get_dpi()
-    # fig.set_size_inches(1920.0 / float(DPI), 1080.0 / float(DPI))
-    # ax.imshow(image)
-    # width = len(image)
-    # height = len(image[0])
+def plot_yolo(image, bboxes, colors=[], labels=[], plot=False):
     width = len(image[0])
     height = len(image)
     for i, bbox in enumerate(bboxes):
@@ -36,16 +30,10 @@ def plot_yolo(image, bboxes, colors=[], labels=[], name='', plot=False):
             cv2.rectangle(image, (x_min, y_min), (x_min + w, y_min + h), color, 4)
             cv2.putText(image, label, (x_min, y_min-5), cv2.FONT_HERSHEY_SIMPLEX, 2, color, 4)
         else:
-            cv2.rectangle(image, (x_min, y_min), (x_min + w, y_min + h), 4)
+            cv2.rectangle(image, (x_min, y_min), (x_min + w, y_min + h), [255, 0, 0], 4)
             # cv2.putText(image, (x_min, y_min-5), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 0), 4)
     # display image with opencv or any operation you like
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     if plot:
         cv2.imshow("plot", image)
         cv2.waitKey(0)
-        # k = cv2.waitKey(33) & 0xFF
-        # if k == 27:
-        #     sys.exit()
-    if name:
-        path = './Track_frames2/' + name
-        cv2.imwrite(path, image)

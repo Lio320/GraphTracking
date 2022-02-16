@@ -59,7 +59,9 @@ def get_frame_points(path):
             if i % 2 == 0:
                 image_ID = line[0]
                 camera_ID = line[8]
-                frame_id = int(line[9].strip()[6:11])
+                # frame_id = int(line[9].strip()[6:11])
+                frame_id = [int(i) for i in line[9] if i.isdigit()]
+                frame_id = int(''.join([str(x) for x in frame_id]))
             # Odd number line
             else:
                 # Remove '\n' from last element

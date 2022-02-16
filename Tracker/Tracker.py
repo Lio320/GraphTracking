@@ -79,7 +79,7 @@ def tracker(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_p
     return G, prev_frame_points_to_obj
 
 
-def tracker2(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, plot_points=False):
+def tracker_memory(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, plot_points=False):
     weights = defaultdict(list)
     bboxes_2_points = defaultdict(list)
     curr_frame_points_to_obj = []
@@ -150,7 +150,7 @@ def tracker2(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_
     return G, prev_frame_points_to_obj
 
 
-def draw_tracked_paths(G, image, bboxes, curr_node, paths_dict, ids, name, plot=False):
+def draw_tracked_paths(G, image, bboxes, curr_node, paths_dict, plot=False):
     bboxes = sorted(bboxes, key=itemgetter(0))
     plotted_bboxes = []
     colors = []
@@ -164,5 +164,5 @@ def draw_tracked_paths(G, image, bboxes, curr_node, paths_dict, ids, name, plot=
         for key in paths_dict:
             if curr_node + j in paths_dict[key]:
                 ids.append(key)
-    plt_bboxes.plot_yolo(image, plotted_bboxes, colors, ids, name, plot)
-    return j
+    plt_bboxes.plot_yolo(image, plotted_bboxes, colors, ids, plot)
+    return j, ids, plotted_bboxes, image

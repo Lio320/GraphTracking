@@ -31,6 +31,16 @@ def get_labels(path):
     return labels
 
 
+def fill_labels(ids_list, labels_paths, label_path, name='frame'):
+    for i, frame_id in enumerate(ids_list):
+        label_id = [int(i) for i in labels_paths[i] if i.isdigit()]
+        label_id = int(''.join([str(x) for x in label_id[-4:]]))
+        if label_id != int(frame_id):
+            print(label_id, frame_id)
+            idx = label_path + name + str(frame_id).zfill(4) + '.txt'
+            open(idx, 'a').close()
+
+
 def get_masks(path):
     """
     Get masks from a single file
@@ -65,9 +75,11 @@ def get_bboxes(path):
     return num_nodes, bboxes
 
 
-def transform_bboxes(bboxes):
-    width = 1920
-    height = 1080
+####### FROM YOLO TO PASCAL VOC ########
+# [x_min, y_min, x_max, y_max] Not normalized
+def yolo2pascal(image, bboxes):
+    width = len(image[0])
+    height = len(image)
     new_bboxes = []
     for bbox in bboxes:
         # Convert bboxes from tuple to list
@@ -83,5 +95,51 @@ def transform_bboxes(bboxes):
         x_max = int(x_cen + (w / 2))
         y_max = int(y_cen + (h / 2))
         new_bboxes.append([x_min, y_min, x_max, y_max])
+        new_bboxes = sorted(new_bboxes, key=itemgetter(0))
+    return new_bboxes
+
+
+####### FROM PASCAL VOC TO YOLO ########
+# [x_center, y_center, width, height] Normalized
+def pascal2yolo(image, bboxes):
+    width = len(image[0])
+    height = len(image)
+    new_bboxes = []
+    for bbox in bboxes:
+        # Convert bboxes from tuple to list
+        bbox = list(bbox)
+        # Normalization process
+        x_min = bbox[0] / width
+        y_min = bbox[1] / height
+        x_max = bbox[2] / width
+        y_max = bbox[3] / height
+        w = x_max - x_min
+        h = y_max - y_min
+        x_cen = x_min + (w / 2)
+        y_cen = y_min + (h / 2)
+        new_bboxes.append([x_cen, y_cen, w, h])
+        new_bboxes = sorted(new_bboxes, key=itemgetter(0))
+    return new_bboxes
+
+
+####### FROM PASCAL VOC TO MOT CHALLENGE########
+# [bb_left, bb_top, w, h] Not normalized
+def yolo2mot(image, bboxes):
+    width = len(image[0])
+    height = len(image)
+    new_bboxes = []
+    for i, bbox in enumerate(bboxes):
+        # Convert bboxes from tuple to list
+        bbox = list(bbox)
+        # Denormalization process
+        x_cen = bbox[0] * width
+        y_cen = bbox[1] * height
+        w = int(bbox[2] * width)
+        h = int(bbox[3] * height)
+
+        # Obtain x_min and y_min
+        bb_left = int(x_cen - (w / 2))
+        bb_top = int(y_cen - (h / 2))
+        new_bboxes.append([bb_left, bb_top, w, h])
         new_bboxes = sorted(new_bboxes, key=itemgetter(0))
     return new_bboxes
