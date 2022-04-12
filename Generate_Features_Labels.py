@@ -1,8 +1,7 @@
 from __future__ import print_function
 import cv2
-from Utils.Predictions_data import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo
-from Utils.plot_with_bboxes import plot_yolo
-from Features.HSV_Manager import hsv_tracker, hsv_extractor
+from Utils.Predictions_data import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo, fill_labels
+
 from Features.Features_Manager import detect_features, features_matcher, ransac
 from Features.Features_labels import generate_labels, associate_points
 import os
@@ -11,13 +10,13 @@ import os
 # images_paths = get_images('./Detection_frames/Santos_video/Images/')
 # labels_paths = get_labels('./Detection_frames/Santos_video/labels/')
 
-images_paths = get_images('./Detection_frames/Test_frames/Images/')
-labels_paths = get_labels('./Detection_frames/Test_frames/labels/')
+images_paths = get_images('./Detection_frames/Video_ionut/Images/')
+labels_paths = get_labels('./Detection_frames/Video_ionut/labels/')
 
 skips = [2, 5, 8, 11, 14]
 ####### DEFINE PATH WHERE TO SAVE RESULTS AND SKIP ########
 for skip in skips:
-    save_path = './Pseudolabels/Test_frames/FeaturesLabels/FeaturesLabels_skip' + str(skip) + '/'
+    save_path = './Pseudolabels/Video_ionut/FeaturesLabels/FeaturesLabels_skip' + str(skip) + '/'
     img_path = save_path + 'images/'
     label_path = save_path + 'labels/'
     if not os.path.exists(img_path):
@@ -28,8 +27,8 @@ for skip in skips:
     for i in range(len(images_paths)):
         print('Processing frame', i, 'out of', len(images_paths))
         ######## MANAGE PATHS FOR THE RESULTS ########
-        img_name = 'frame' + str(i).zfill(4) + '.jpg'
-        label_name = 'frame' + str(i).zfill(4) + '.txt'
+        img_name = 'frame' + str(i+1).zfill(4) + '.jpg'
+        label_name = 'frame' + str(i+1).zfill(4) + '.txt'
 
         if not i % skip:
             img1 = cv2.imread(images_paths[i])
@@ -66,12 +65,6 @@ for skip in skips:
             img2 = cv2.imread(images_paths[i])
             # img2 = hsv_extractor(img2, 15, 88, 46, 35, 255, 255)
             kp2, des2 = detect_features(img2)
-            if i == 401:
-                img3 = cv2.drawKeypoints(img2, kp2, None)
-                img3 = cv2.resize(img3, (1280, 720))
-                cv2.imshow('image', img3)
-                if cv2.waitKey(0) & 0xff == 27:
-                    cv2.destroyAllWindows()
 
             good, matched_points1, matched_points2 = features_matcher(kp1, kp2, des1, des2)
 

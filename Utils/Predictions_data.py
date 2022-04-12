@@ -33,7 +33,9 @@ def get_labels(path):
 
 def fill_labels(ids_list, labels_paths, label_path, name='frame'):
     for i, frame_id in enumerate(ids_list):
-        label_id = [int(i) for i in labels_paths[i] if i.isdigit()]
+        print(i)
+        print(len(labels_paths))
+        label_id = [int(i) for i in labels_paths[i-1] if i.isdigit()]
         label_id = int(''.join([str(x) for x in label_id[-4:]]))
         if label_id != int(frame_id):
             print(label_id, frame_id)

@@ -3,6 +3,8 @@ import matplotlib.patches as patches
 import numpy as np
 import cv2
 import sys
+from Utils.Predictions_data import get_images, get_labels
+import Utils.Predictions_data as predData
 
 
 # Yolo format: [x_center, y_center, width, height] (normalized)

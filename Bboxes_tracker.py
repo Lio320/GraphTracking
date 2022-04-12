@@ -21,9 +21,9 @@ import os
 # images_path = './Colmap/Video6_part1/ModelText/images.txt'
 # points_path = './Colmap/Video6_part1/ModelText/points3D.txt'
 
-camera_path = './Colmap/Test_frames/ModelText/cameras.txt'
-images_path = './Colmap/Test_frames/ModelText/images.txt'
-points_path = './Colmap/Test_frames/ModelText/points3D.txt'
+camera_path = './Colmap/Video_validation/ModelText/cameras.txt'
+images_path = './Colmap/Video_validation/ModelText/images.txt'
+points_path = './Colmap/Video_validation/ModelText/points3D.txt'
 
 ####### ASSOCIATE POINTS ID WITH IMAGES ######## (Unuseful but cool, frames IDs are wrong)
 points_cam_association = sfmData.get_points_3d(points_path)
@@ -38,8 +38,8 @@ frame_points_association, ids_list = sfmData.get_frame_points(images_path)
 # image_path = './Detection_frames/Video6_part1/Images/'
 # label_path = './Detection_frames/Video6_part1/labels/'
 
-image_path = './Detection_frames/Test_frames/Images/'
-label_path = './Detection_frames/Test_frames/labels/'
+image_path = './Detection_frames/Video_validation/Images/'
+label_path = './Detection_frames/Video_validation/sfm2/labels/'
 
 images_paths = get_images(image_path)
 labels_paths = get_labels(label_path)
@@ -47,7 +47,7 @@ labels_paths = get_labels(label_path)
 ####### PATHS TO SAVE THE RESULTS ########
 # save_images = './Video_Results/Santos_video/Tracked_Images/'
 # save_images = './Video_Results/Video6_part1/Tracked_Images/'
-save_images = './Video_Results/Test_frames/Tracked_Images/'
+save_images = './Video_Results/Video_validation/Tracked_Images/'
 if not os.path.exists(save_images):
     os.makedirs(save_images)
 

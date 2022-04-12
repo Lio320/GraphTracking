@@ -18,9 +18,9 @@ import matplotlib.pyplot as plt
 # points_path = './Colmap/Santos_video/New_colmaps/SfM_full_res_exhaustive/ModelText/points3D.txt'
 
 
-camera_path = './Colmap/Test_frames/ModelText/cameras.txt'
-images_path = './Colmap/Test_frames/ModelText/images.txt'
-points_path = './Colmap/Test_frames/ModelText/points3D.txt'
+camera_path = './Colmap/Video_validation/ModelText/cameras.txt'
+images_path = './Colmap/Video_validation/ModelText/images.txt'
+points_path = './Colmap/Video_validation/ModelText/points3D.txt'
 
 ####### ASSOCIATE POINTS ID WITH IMAGES ######## (Unuseful but cool, frames IDs are wrong)
 points_cam_association = sfmData.get_points_3d(points_path)
@@ -32,8 +32,8 @@ frame_points_association, ids_list = sfmData.get_frame_points(images_path)
 # image_path = './Detection_frames/Santos_video/Images/'
 # label_path = './Detection_frames/Santos_video/labels/'
 
-image_path = './Detection_frames/Test_frames/Images/'
-label_path = './Detection_frames/Test_frames/yolos_sfm2/labels/'
+image_path = './Detection_frames/Video_validation/Images/'
+label_path = './Detection_frames/Video_validation/aug/labels/'
 
 # image_path = './Detection_frames/Test_frames/Images/'
 # label_path = './Detection_frames/Test_frames/labels/'
@@ -43,16 +43,13 @@ labels_paths = get_labels(label_path)
 
 ####### PATHS TO SAVE THE RESULTS ########
 # save_images = './Video_Results/Santos_video/Tracked_Images/'
-save_images = './Video_Results/Test_frames/Tracked_Images_memory/'
+save_images = './Video_Results/Video_validation/Tracked_Images_memory/'
 # save_images = './Video_Results/Test_frames/Tracked_Images/'
 if not os.path.exists(save_images):
     os.makedirs(save_images)
 
 ####### GENERATE DUMMY LABELS IF NOT PRESENT ########
-fill_labels(ids_list, labels_paths, label_path, 'left')
-
-####### TAKE NEW LABELS IF PRESENT ########
-labels_paths = get_labels(label_path)
+# fill_labels(ids_list, labels_paths, label_path, 'frame_')
 
 ####### TAKE NEW LABELS IF PRESENT ########
 labels_paths = get_labels(label_path)
@@ -109,8 +106,8 @@ for node in nodes:
         paths.append(path)
 
 
-nx.draw(G, pos, node_size=3, edge_color=colors, arrows=True, with_labels=True)
-plt.show()
+# nx.draw(G, pos, node_size=3, edge_color=colors, arrows=True, with_labels=True)
+# plt.show()
 
 # New graph
 G2, pos2, layers2 = Graph.generate_graph(nodes_mantain, plot=False)
