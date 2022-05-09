@@ -6,53 +6,29 @@ import Utils.Graph as Graph
 import Utils.SfM_Data as sfmData
 from collections import defaultdict
 import cv2
-from Tracker.Tracker import tracker, draw_tracked_paths
-from Utils.Predictions_data import get_images, yolo2mot, get_labels, fill_labels
-import matplotlib.pyplot as plt
+from Tracker.Tracker import draw_tracked_paths, tracker_memory
+from Utils.Predictions_data import get_images, yolo2mot, get_labels
 import os
+from Utils.config import config
+import matplotlib.pyplot as plt
 
+####### CONFIGURE ALL THE PATHS WITH THE NECESSARY INFORMATION ########
+camera_path, images_path, points_path, image_path, label_path, save_images, save_txt = config()
 
-####### PATHS TO SfM RECONSTRUCTION MODEL ########
-# camera_path = './Colmap/Santos_video/New_colmaps/SfM_full_res_exhaustive/ModelText/cameras.txt'
-# images_path = './Colmap/Santos_video/New_colmaps/SfM_full_res_exhaustive/ModelText/images.txt'
-# points_path = './Colmap/Santos_video/New_colmaps/SfM_full_res_exhaustive/ModelText/points3D.txt'
-
-# camera_path = './Colmap/Video6_part1/ModelText/cameras.txt'
-# images_path = './Colmap/Video6_part1/ModelText/images.txt'
-# points_path = './Colmap/Video6_part1/ModelText/points3D.txt'
-
-camera_path = './Colmap/Video_validation/ModelText/cameras.txt'
-images_path = './Colmap/Video_validation/ModelText/images.txt'
-points_path = './Colmap/Video_validation/ModelText/points3D.txt'
-
-####### ASSOCIATE POINTS ID WITH IMAGES ######## (Unuseful but cool, frames IDs are wrong)
+####### ASSOCIATE POINTS ID WITH IMAGES ########
 points_cam_association = sfmData.get_points_3d(points_path)
 
 ####### ASSOCIATE EACH IMAGE WITH THE POINTS SEEN ########
 frame_points_association, ids_list = sfmData.get_frame_points(images_path)
-
-####### GET IMAGES AND LABELS PATHS INSIDE THE FOLDER ########
-# image_path = './Detection_frames/Santos_video/Images/'
-# label_path = './Detection_frames/Santos_video/labels/'
-
-# image_path = './Detection_frames/Video6_part1/Images/'
-# label_path = './Detection_frames/Video6_part1/labels/'
-
-image_path = './Detection_frames/Video_validation/Images/'
-label_path = './Detection_frames/Video_validation/sfm2/labels/'
-
 images_paths = get_images(image_path)
 labels_paths = get_labels(label_path)
 
 ####### PATHS TO SAVE THE RESULTS ########
-# save_images = './Video_Results/Santos_video/Tracked_Images/'
-# save_images = './Video_Results/Video6_part1/Tracked_Images/'
-save_images = './Video_Results/Video_validation/Tracked_Images/'
 if not os.path.exists(save_images):
     os.makedirs(save_images)
 
 ####### GENERATE DUMMY LABELS IF NOT PRESENT ########
-fill_labels(ids_list, labels_paths, label_path, 'left')
+# fill_labels(ids_list, labels_paths, label_path, 'frame_')
 
 ####### TAKE NEW LABELS IF PRESENT ########
 labels_paths = get_labels(label_path)
@@ -66,8 +42,6 @@ for label in labels_paths:
 
 nodes_mantain = nodes
 G, pos, layers = Graph.generate_graph(nodes, plot=False)
-# nx.draw(G, pos)
-# plt.show()
 
 prev_frame_points_to_obj = []
 curr_num_nodes = 0
@@ -75,34 +49,29 @@ curr_num_nodes = 0
 for i, frame_id in enumerate(ids_list):
     # Create weights as dictionary, one key for each instance in current frame
     weights = defaultdict(list)
+
     # Take the index of the current data to analyze
     print('Processing the frame number', frame_id)
+
     # Manage paths
     bbox_path = labels_paths[i]
     image_path = images_paths[i]
     image = cv2.imread(image_path)
     num_nodes, bboxes = predData.get_bboxes(bbox_path)
-
     bboxes = predData.yolo2pascal(image, bboxes)
-
     points = frame_points_association[frame_id]
+
     ####### RUN TRACKER ########
-    G, prev_frame_points_to_obj = tracker(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, False)
+    G, prev_frame_points_to_obj = tracker_memory(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, False)
     curr_num_nodes = curr_num_nodes + num_nodes
-    # if i == 41:
-    #     break
 
 edges = G.edges()
 colors = [G[u][v]['color'] for u, v in edges]
-# weights = [G[u][v]['weight'] for u, v in edges]
-
-nx.draw(G, pos, node_size=3, edge_color=colors, arrows=True, with_labels=True)
-plt.show()
 
 ######## FILTER EDGES BY WEIGHTS ########
 G = Graph.filter_graph(G)
 
-######## EXTRACT PATHS LONGER THAN 5 ########
+######## EXTRACT PATHS LONGER THAN 5 FRAMES ########
 # At this point there is only one edge that goes out each node
 nodes = G.nodes()
 banned = []
@@ -111,18 +80,14 @@ for node in nodes:
     path = []
     if node not in banned:
         Graph.explore_edge(G, node, path, banned)
-    if len(path) > 4:
+    if len(path) > 5:
         paths.append(path)
 
-nx.draw(G, pos, node_size=3, edge_color=colors, arrows=True, with_labels=True)
-plt.show()
-
-# New graph
+######## GENERATE NEW GRAPH WITH PATHS ONLY LONGER THAN 5 FRAMES ########
 G2, pos2, layers2 = Graph.generate_graph(nodes_mantain, plot=False)
 nodes = G2.nodes()
 colors = cm.jet(np.linspace(0, 1, 10))
 paths_dict = {}
-
 for i, path in enumerate(paths):
     col = i % 10
     prev = 0
@@ -132,17 +97,15 @@ for i, path in enumerate(paths):
             G2.add_edge(prev, node, weight=5, color=color)
         prev = node
     paths_dict[i] = path[:-1]
-
-
 edges = G2.edges()
 colors = [G2[u][v]['color'] for u, v in edges]
-
 nx.draw(G2, pos2, node_size=3, edge_color=colors, arrows=True, with_labels=True)
+plt.show()
+
+######## DRAW AND SAVE TRACKED PATHS WITH IMAGES ########
 curr_node = 0
 last_id = 0
-
-open('tracker_bboxes.txt', 'w').close()
-######## DRAW AND SAVE TRACKED PATHS WITH IMAGES ########
+open(save_txt, 'w').close()
 for i, frame_id in enumerate(ids_list):
     # Take the index of the current data to analyze
     print('Processing (again) the frame number', frame_id)
@@ -154,14 +117,13 @@ for i, frame_id in enumerate(ids_list):
     image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
     if not bboxes:
         continue
-    j, ids, new_bboxes, image = draw_tracked_paths(G2, image, bboxes, curr_node, paths_dict, plot=True)
+    j, ids, new_bboxes, image = draw_tracked_paths(G2, image, bboxes, curr_node, paths_dict, plot=False)
     save_path = save_images + name
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     cv2.imwrite(save_path, image)
     print(f'found {j} grapes in the frame {frame_id}')
     new_bboxes = yolo2mot(image, new_bboxes)
     for k, bbox in enumerate(sorted(new_bboxes)):
-        with open('tracker_bboxes.txt', 'a') as f:
+        with open(save_txt, 'a') as f:
             f.write(str(i+1) + ', ' + str(ids[k]) + ', ' + str(bbox)[1:-1] + ', -1, -1, -1, -1' + '\n')
-
     curr_node += num_nodes
