@@ -1,19 +1,12 @@
 import Utils.Predictions_data as predData
-import Utils.Graph as Graph
 import Utils.SfM_Data as sfmData
-from collections import defaultdict
 import cv2
 from Tracker.Pseudo_Labels import generate_pseudo_labels, tracker
 from Utils.Predictions_data import get_images, get_labels
+from Utils.config_sfm_labels import config
 
 ####### PATHS TO FILES THAT CONTAIN SFM RECONSTRUCTION ########
-camera_path = 'Colmap/Video_ionut/ModelText/cameras.txt'
-images_path = './Colmap/Video_ionut/ModelText/images.txt'
-points_path = './Colmap/Video_ionut/ModelText/points3D.txt'
-
-####### GET IMAGES AND LABELS PATHS INSIDE THE FOLDER ########
-image_path = './Detection_frames/Video_ionut/Images/'
-label_path = './Detection_frames/Video_ionut/labels/'
+camera_path, images_path, points_path, image_path, label_path, results_path, skips = config()
 
 images_paths = get_images(image_path)
 labels_paths = get_labels(label_path)
@@ -24,11 +17,9 @@ points_cam_association = sfmData.get_points_3d(points_path)
 ####### ASSOCIATE EACH IMAGE WITH THE POINTS SEEN ########
 frame_points_association, ids_list = sfmData.get_frame_points(images_path)
 
-skips = [2, 5, 8, 11, 14]
 ####### DEFINE PATH WHERE TO SAVE RESULTS AND SKIP ########
 for skip in skips:
-    save_path = './Pseudolabels/Video_ionut/SfmLabels/SfmLabels_skip' + str(skip) + '/'
-
+    save_path = results_path + str(skip) + '/'
     prev_frame_points_to_obj = []
     curr_num_nodes = 0
     for i, frame_id in enumerate(ids_list):
@@ -39,6 +30,7 @@ for skip in skips:
         num_nodes, bboxes = predData.get_bboxes(bbox_path)
         bboxes = predData.yolo2pascal(image, bboxes)
         points = frame_points_association[frame_id]
+
         ####### RUN TRACKER ONE TIME EVERY TWO FRAMES ########
         if i % skip:
             print('in_ labels', i)

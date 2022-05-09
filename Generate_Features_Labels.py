@@ -1,24 +1,23 @@
 from __future__ import print_function
 import cv2
 from Utils.Predictions_data import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo, fill_labels
-
 from Features.Features_Manager import detect_features, features_matcher, ransac
 from Features.Features_labels import generate_labels, associate_points
+from Utils.config_labels import config
 import os
 
-####### GET IMAGES AND LABELS PATHS INSIDE THE FOLDER ########
-# images_paths = get_images('./Detection_frames/Santos_video/Images/')
-# labels_paths = get_labels('./Detection_frames/Santos_video/labels/')
+####### ORGANIZE IMAGES AND LABELS ########
+image_path, label_path, skips, results_path = config()
+images_paths = get_images(image_path)
+labels_paths = get_labels(label_path)
 
-images_paths = get_images('./Detection_frames/Video_ionut/Images/')
-labels_paths = get_labels('./Detection_frames/Video_ionut/labels/')
-
-skips = [2, 5, 8, 11, 14]
-####### DEFINE PATH WHERE TO SAVE RESULTS AND SKIP ########
+####### DEFINE PATH WHERE TO SAVE RESULTS ########
 for skip in skips:
-    save_path = './Pseudolabels/Video_ionut/FeaturesLabels/FeaturesLabels_skip' + str(skip) + '/'
+    save_path = results_path + str(skip) + '/'
     img_path = save_path + 'images/'
     label_path = save_path + 'labels/'
+
+    ####### GENERATE FOLDERS IF DON"T EXISTS ########
     if not os.path.exists(img_path):
         os.makedirs(img_path)
     if not os.path.exists(label_path):
@@ -65,16 +64,17 @@ for skip in skips:
             img2 = cv2.imread(images_paths[i])
             # img2 = hsv_extractor(img2, 15, 88, 46, 35, 255, 255)
             kp2, des2 = detect_features(img2)
-
             good, matched_points1, matched_points2 = features_matcher(kp1, kp2, des1, des2)
-
             good_matches, inliers1, inliers2 = ransac(kp1, kp2, good, matched_points1, matched_points2)
 
+            ####### IF NO GOOD MATCHES FROM RANSAC THEN SKIP TO NEXT IMAGE ########
             if good_matches is None:
                 continue
+
             bboxes_2_points = associate_points(bboxes1, inliers1, inliers2)
             new_bboxes = generate_labels(img2, bboxes_2_points, bboxes1)
             yolo_bboxes = pascal2yolo(img2, new_bboxes)
+
             ####### SAVE LABELS ########
             with open(label_path + label_name, 'w') as f:
                 for bbox in yolo_bboxes:

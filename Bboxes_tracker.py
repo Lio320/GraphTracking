@@ -9,7 +9,7 @@ import cv2
 from Tracker.Tracker import draw_tracked_paths, tracker_memory
 from Utils.Predictions_data import get_images, yolo2mot, get_labels
 import os
-from Utils.config import config
+from Utils.config_track import config
 import matplotlib.pyplot as plt
 
 ####### CONFIGURE ALL THE PATHS WITH THE NECESSARY INFORMATION ########
