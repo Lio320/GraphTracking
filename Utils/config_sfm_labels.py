@@ -1,6 +1,5 @@
 
 def config():
-
     ####### PATHS TO SfM RECONSTRUCTION MODEL ########
     camera_path = './Colmap/Video_validation/ModelText/cameras.txt'
     images_path = './Colmap/Video_validation/ModelText/images.txt'
@@ -11,5 +10,4 @@ def config():
     ####### PATHS TO SAVE THE RESULTS (IMAGES AND TRACKING) ########
     results_path = './Pseudolabels/Video_ionut/SfmLabels/SfmLabels_skip'
     skips = [2, 5, 8, 11, 14]
-
     return camera_path, images_path, points_path, image_path, label_path, results_path, skips
