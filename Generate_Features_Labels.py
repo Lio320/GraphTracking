@@ -5,9 +5,18 @@ from Features.Features_Manager import detect_features, features_matcher, ransac
 from Features.Features_labels import generate_labels, associate_points
 from Utils.config_labels import config
 import os
+import yaml
+
 
 ####### ORGANIZE IMAGES AND LABELS ########
-image_path, label_path, skips, results_path = config()
+with open("./Config/config_labels.yaml", "r") as f:
+    cfg = yaml.load(f, Loader=yaml.FullLoader)
+
+image_path = cfg['image_path']
+label_path = cfg['label_path']
+skips = cfg['skips']
+results_path = cfg['results_path']
+
 images_paths = get_images(image_path)
 labels_paths = get_labels(label_path)
 
@@ -22,6 +31,8 @@ for skip in skips:
         os.makedirs(img_path)
     if not os.path.exists(label_path):
         os.makedirs(label_path)
+
+    print('Processing frames with skip', skip)
 
     for i in range(len(images_paths)):
         print('Processing frame', i, 'out of', len(images_paths))
@@ -89,6 +100,3 @@ for skip in skips:
                     f.write('0 ' + str(bbox[0]) + ' ' + str(bbox[1]) + ' ' + str(bbox[2]) + ' ' + str(bbox[3]) + '\n')
             ####### SAVE IMAGE ########
             cv2.imwrite(img_path + img_name, img2)
-
-
-

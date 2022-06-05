@@ -1,6 +1,7 @@
 import numpy as np
 import networkx as nx
 from matplotlib import cm
+import matplotlib.pyplot as plt
 import Utils.Predictions_data as predData
 import Utils.Graph as Graph
 import Utils.SfM_Data as sfmData
@@ -9,11 +10,20 @@ import cv2
 from Tracker.Tracker import draw_tracked_paths, tracker_memory
 from Utils.Predictions_data import get_images, yolo2mot, get_labels
 import os
-from Utils.config_track import config
-import matplotlib.pyplot as plt
+import yaml
+
 
 ####### CONFIGURE ALL THE PATHS WITH THE NECESSARY INFORMATION ########
-camera_path, images_path, points_path, image_path, label_path, save_images, save_txt = config()
+with open("./Config/config_track.yaml", "r") as f:
+    cfg = yaml.load(f, Loader=yaml.FullLoader)
+
+camera_path = cfg['camera_path']
+images_path = cfg['images_path']
+points_path = cfg['points_path']
+image_path = cfg['image_path']
+label_path = cfg['label_path']
+save_images = cfg['save_images']
+save_txt = cfg['save_txt'] 
 
 ####### ASSOCIATE POINTS ID WITH IMAGES ########
 points_cam_association = sfmData.get_points_3d(points_path)

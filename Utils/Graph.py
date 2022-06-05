@@ -5,12 +5,16 @@ import matplotlib.pyplot as plt
 import itertools
 
 
-def generate_graph(nodes, plot=True):
+def generate_graph(nodes, plot=False):
     """
-    Generate the graph from the nodes (instances)
-    Keyword arguments:
-    nodes: number of nodes (instances) at each frame
-    plot: choose to plot or not
+    Function to generate the graph from the nodes (instances)
+
+    Args:
+        nodes (int): number of nodes (instances) at each frame
+        plot (bool): choose if plot or not the graph once created
+    Returns:
+        G (nx Graph): graph with the nodes corresponding to the instances in each frame
+        pos (dict): a dictionary of positions keyed by node.
     """
     result = itertools.accumulate(nodes)
     prev_value = 0
@@ -22,7 +26,7 @@ def generate_graph(nodes, plot=True):
     for (i, layer) in enumerate(layers):
         G.add_nodes_from(layer, layer=i)
     pos = nx.multipartite_layout(G, subset_key="layer")
-    # nx.draw(G, pos, node_color='red', with_labels=False, node_size=3, verticalalignment='baseline')
+    print(type(G))
 
     if plot:
         plt.axis("auto")
