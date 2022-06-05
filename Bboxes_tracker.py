@@ -84,12 +84,12 @@ G = Graph.filter_graph(G)
 ######## EXTRACT PATHS LONGER THAN 5 FRAMES ########
 # At this point there is only one edge that goes out each node
 nodes = G.nodes()
+print(type(nodes))
 banned = []
 paths = []
 for node in nodes:
-    path = []
     if node not in banned:
-        Graph.explore_edge(G, node, path, banned)
+        path, banned = Graph.explore_edge(G, node, banned)
     if len(path) > 5:
         paths.append(path)
 

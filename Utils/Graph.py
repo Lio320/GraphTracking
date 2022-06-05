@@ -36,6 +36,16 @@ def generate_graph(nodes, plot=False):
 
 
 def filter_graph(G):
+    """
+    Function to filter edges and nodes in the graph, to avoid the same node to split
+    in two different nodes and to avoid multiple edges to converge on a single node. The
+    strategy of keeping the highest weight is teken into account
+
+    Args:
+        G (nx Graph): graph to be filtered
+    Returns:
+        G (nx Graph): cleaned graph
+    """
     nodes = G.nodes()
     for node in nodes:
         in_edges = G.in_edges(node, data=True)
@@ -75,9 +85,21 @@ def filter_graph(G):
     return G
 
 
-def explore_edge(G, node, path, banned):
+def explore_edge(G, node, banned):
+    """
+    Function to extract the paths of all nodes in the graph
+
+    Args:
+        G (nx Graph): Graph to extract paths
+        node (nx Node): choose if plot or not the graph once created
+        banned (list): list of the nodes visited
+    Returns:
+        path (list): list containing the nodes visited in this path
+        banned (list): list containind the visited nodes
+    """
     out_edge = G.out_edges(node, data=True)
     edge = list(out_edge)
+    path = []
     if edge:
         for value in edge:
             u = value[0]
@@ -88,3 +110,4 @@ def explore_edge(G, node, path, banned):
     else:
         path.append(node)
         banned.append(node)
+    return path, banned
