@@ -1,8 +1,7 @@
 from collections import defaultdict
-import Utils.Predictions_data as predData
+import Utils.Data_Management as predData
 import cv2
 import sys
-import Utils.plot_with_bboxes as plt_bboxes
 from operator import itemgetter
 
 
@@ -164,5 +163,5 @@ def draw_tracked_paths(G, image, bboxes, curr_node, paths_dict, plot=False):
         for key in paths_dict:
             if curr_node + j in paths_dict[key]:
                 ids.append(key)
-    plt_bboxes.plot_yolo(image, plotted_bboxes, colors, ids, plot)
+    predData.plot_yolo(image, plotted_bboxes, colors, ids, plot)
     return j, ids, plotted_bboxes, image

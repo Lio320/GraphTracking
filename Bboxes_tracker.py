@@ -2,13 +2,13 @@ import numpy as np
 import networkx as nx
 from matplotlib import cm
 import matplotlib.pyplot as plt
-import Utils.Predictions_data as predData
+import Utils.Data_Management as predData
 import Utils.Graph as Graph
 import Utils.SfM_Data as sfmData
 from collections import defaultdict
 import cv2
 from Tracker.Tracker import draw_tracked_paths, tracker_memory
-from Utils.Predictions_data import get_images, yolo2mot, get_labels
+from Utils.Data_Management import get_images, yolo2mot, get_labels
 import os
 import yaml
 

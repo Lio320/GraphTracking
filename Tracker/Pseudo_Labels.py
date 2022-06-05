@@ -2,8 +2,7 @@ from collections import defaultdict
 import cv2
 import sys
 import os
-from Utils.Predictions_data import pascal2yolo
-from Utils.plot_with_bboxes import plot_yolo
+from Utils.Data_Management import pascal2yolo
 
 
 def most_frequent(lst):
