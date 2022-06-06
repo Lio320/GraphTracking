@@ -17,68 +17,23 @@ def most_frequent(lst):
     return num, counter
 
 
-def tracker(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, plot_points=False):
-    weights = defaultdict(list)
-    bboxes_2_points = defaultdict(list)
-    curr_frame_points_to_obj = []
-    ######## ASSOCIATION ########
-    # Associate for the current frame, the ID of the point and the node (object) to whom is linked
-    if plot_points:
-        image = cv2.imread(image_path)
-    for j, grape in enumerate(bboxes):
-        for point in points:
-            x = round(float(point[0]))-1
-            y = round(float(point[1]))-1
-            point_id = point[2]
-            if grape[0] <= x <= grape[2] and grape[1] <= y <= grape[3]:
-                curr_frame_points_to_obj.append((point_id, j))
-                bboxes_2_points[j].append(point_id)
-                if plot_points:
-                    cv2.circle(image, (x, y), radius=4, color=(0, 0, 255), thickness=-1)
-    if plot_points:
-        cv2.imshow("plot", image)
-        k = cv2.waitKey(33) & 0xFF
-        if k == 27:
-            sys.exit()
-    ######## UPDATE WEIGHTS, HOW MANY TIME A POINT IS CONNECTED TO THE NEXT ########
-    for curr_elem in curr_frame_points_to_obj:
-        for value in prev_frame_points_to_obj[1:]:
-            if curr_elem[0] == value[0]:
-                weights[curr_num_nodes+curr_elem[1]].append(prev_frame_points_to_obj[0]+value[1])
-
-    curr_frame_points_to_obj.insert(0, curr_num_nodes)
-    prev_frame_points_to_obj = curr_frame_points_to_obj
-    ######## CONNECT EDGES THROUGH WEIGHTS ########
-    # Weights contain how many instances connect two nodes
-    for key in weights:
-        if weights[key]:
-            highest, weight = most_frequent(weights[key])
-        else:
-            continue
-        if weight < 2:
-            G.add_edge(highest, key, weight=weight, color='blue')
-            continue
-        if weight < 5:
-            G.add_edge(highest, key, weight=weight, color='deepskyblue')
-            continue
-        if weight < 7:
-            G.add_edge(highest, key, weight=weight, color='lime')
-            continue
-        if weight < 10:
-            G.add_edge(highest, key, weight=weight, color='yellow')
-            continue
-        if weight < 12:
-            G.add_edge(highest, key, weight=weight, color='orangered')
-            continue
-        if weight < 15:
-            G.add_edge(highest, key, weight=weight, color='red')
-            continue
-        else:
-            G.add_edge(highest, key, weight=weight, color='fuchsia')
-    return G, prev_frame_points_to_obj
-
-
 def tracker_memory(G, points, bboxes, prev_frame_points_to_obj, curr_num_nodes, image_path, plot_points=False):
+    """
+    Tracking function, associates the instances from the previous frame to the ones in the next frame
+
+    Args:
+        G (nx graph):                       current graph with the tracked instances
+        points (list):                      list of all the points (features) in the current image
+        bboxes (list):                      list of the bounding boxes in the image
+        prev_frame_points_to_obj (list):    list of tuples that assoiates the points to the corresponding objects
+        curr_num_nodes (int):               the current node in the fraph we are considering
+        image_path (str):                   path to the image to track (current frame)
+        plot_points (bool):                 boolean variable to choose if to plot or not the tracking results (frame by frame)
+
+    Returns:
+        G (nx graph):                       updated tracking graph with one node for each instance
+        prev_frame_points_to_obj (list):    list of tuples that assoiates the points to the corresponding objects
+    """
     weights = defaultdict(list)
     bboxes_2_points = defaultdict(list)
     curr_frame_points_to_obj = []

@@ -1,7 +1,7 @@
 ####### PATHS IMAGES AND YOLO LABELS ########
-image_path: './Detection_frames/Video_ionut/Images/'
-label_path: './Detection_frames/Video_ionut/labels/'
+image_path: './Datasets/Validation/Detection/Images/'
+label_path: './Datasets/Validation/Detection/Labels/'
 ####### DEFINE SKIPS ########
-skips: [2, 5, 8, 11, 14]
+skips: [2, 5]
 ####### PATH WHERE TO SAVE RESULTS ########
-results_path: './Pseudolabels/Video_ionut/FeaturesLabels/FeaturesLabels_skip'
+results_path: './Porcodio/Ensomma_skip'

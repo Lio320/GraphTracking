@@ -6,6 +6,16 @@ from Utils.Data_Management import pascal2yolo
 
 
 def most_frequent(lst):
+    """
+    Function that given a list returns the most frequent element in it
+
+    Args:
+        lst (list): list on which the most frequent value has to be found
+
+    Returns:
+        num (value): most frequent element in the list
+        counter(int): number of times the element appears in the list
+    """
     counter = 0
     num = lst[0]
     for n in lst:
@@ -16,7 +26,25 @@ def most_frequent(lst):
     return num, counter
 
 
-def tracker(points, bboxes, curr_num_nodes, image, plot_points=False, idx='', path=''):
+def tracker_pseudo(points, bboxes, curr_num_nodes, image, plot_points=False, idx='', path=''):
+    """
+    Tracking function, associates the instances from the previous frame to the next one
+
+    Args:
+        points (list):                      list of all the points (features) in the current image
+        bboxes (list):                      list of the bounding boxes in the image
+        curr_num_nodes (int):               the current node in the fraph we are considering
+        image (image):                      image of the current frame
+        plot_points (bool):                 boolean variable to choose if to plot or not the points in the image
+        idx (str):                          string to associate the name of the images (base is frame0000.jpg), but can modify according to
+                                            the image (if idx == '_' --> frame_0000.jpg)
+        path (str):                         path to the folder that contains the image
+
+    Returns:
+        prev_frame_points_to_obj (list):    list of tuples that assoiates the points to the corresponding objects
+        bboxes (list):                      list containing the bounding boxes found in the new frame
+        bboxes_2_points (dict):             dictionary that associates each bounding box in the current frame to the points that fall in it
+    """
     bboxes_2_points = defaultdict(list)
     curr_frame_points_to_obj = []
     ######## MANAGE PATHS FOR THE RESULTS ########
@@ -81,6 +109,18 @@ def tracker(points, bboxes, curr_num_nodes, image, plot_points=False, idx='', pa
 
 
 def generate_pseudo_labels(points, bboxes, bboxes_2_points, image, idx, path=''):
+    """
+    Function that generates the pseudo labels for semi supervised learning
+
+    Args:
+        points (list):              list of all the points (features) in the current image
+        bboxes (list):              list of the bounding boxes in the image
+        bboxes_2_points (dict):     dictionary that associates each bounding box in the current frame to the points that fall in it
+        image (image):              image of the current frame
+        idx (str):                  string to associate the name of the images (base is frame0000.jpg), but can modify according to
+                                    the image (if idx == '_' --> frame_0000.jpg)
+        path (str):                 path to the folder that contains the image
+    """
     new_bboxes_2_points = defaultdict(list)
     bboxes = sorted(bboxes)
 

@@ -1,6 +1,6 @@
 from __future__ import print_function
 import cv2
-from Utils.Predictions_data import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo, fill_labels
+from Utils.Data_Management import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo
 from Features.Features_Manager import detect_features, features_matcher, ransac
 from Features.Features_labels import generate_labels, associate_points
 import os

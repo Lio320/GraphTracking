@@ -1,7 +1,7 @@
 import Utils.Data_Management as predData
 import Utils.SfM_Data as sfmData
 import cv2
-from Tracker.Pseudo_Labels import generate_pseudo_labels, tracker
+from Tracker.Pseudo_Labels import generate_pseudo_labels, tracker_pseudo
 from Utils.Data_Management import get_images, get_labels
 import yaml
 
@@ -47,7 +47,7 @@ for skip in skips:
 
         else:
             print('Picking detector prediction at frame', i)
-            prev_frame_points_to_obj, prev_bboxes, bboxes_2_points = tracker(points, bboxes,
+            prev_frame_points_to_obj, prev_bboxes, bboxes_2_points = tracker_pseudo(points, bboxes,
                                                                              curr_num_nodes,
                                                                              image, True,
                                                                              i+1, save_path)
