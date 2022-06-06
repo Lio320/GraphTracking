@@ -1,9 +1,8 @@
-import Utils.Predictions_data as predData
+import Utils.Data_Management as predData
 import Utils.SfM_Data as sfmData
 import cv2
 from Tracker.Pseudo_Labels import generate_pseudo_labels, tracker
-from Utils.Predictions_data import get_images, get_labels
-from Utils.config_sfm_labels import config
+from Utils.Data_Management import get_images, get_labels
 import yaml
 
 ####### PATHS TO FILES THAT CONTAIN SFM RECONSTRUCTION ########
