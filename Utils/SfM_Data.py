@@ -10,8 +10,11 @@ from operator import itemgetter
 def get_points_3d(path):
     """
     Get 3D points seen in the SfM reconstruction
-    Keyword arguments:
-    path: path to the file containing the points
+
+    Args:
+        path (str): path to the file containing the points
+    Returns:
+        p2c_association (dict): dictionary that associates to every frame the points seen
     """
     # Create dictionary that associate to each 3D point, the images (therefore the cameras) from where it is seen.
     p2c_association = {}
@@ -25,7 +28,6 @@ def get_points_3d(path):
             X = line[1]
             Y = line[2]
             Z = line[3]
-            # print('X:', X, '\nY:', Y, '\nZ:', Z)
             track = line[8:]
             for j in range(0, int(len(track)), 2):
                 ImageID = track[j]
@@ -41,11 +43,12 @@ def get_points_3d(path):
 def get_frame_points(path):
     """
     Get for each frame the 2D point projection
-    Keyword arguments:
-    path: path to the file containing the points
-    returns:
-    - c2p_association -> dictionary with association of frames and points
-    - ids_list -> ordered list with the ids of the images
+
+    Args:
+        path (str): path to the file containing the points
+    Returns:
+        c2p_association (dict): dictionary with association of frames and points
+        ids_list (list): ordered list with the ids of the images
     """
     ids_list = []
     c2p_association = {}

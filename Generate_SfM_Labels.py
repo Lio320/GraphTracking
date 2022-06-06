@@ -46,7 +46,7 @@ for skip in skips:
             generate_pseudo_labels(points, prev_bboxes, bboxes_2_points, image, i+1, save_path)
 
         else:
-            print('Picking detector prediciton at frame', i)
+            print('Picking detector prediction at frame', i)
             prev_frame_points_to_obj, prev_bboxes, bboxes_2_points = tracker(points, bboxes,
                                                                              curr_num_nodes,
                                                                              image, True,
