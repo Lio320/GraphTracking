@@ -3,12 +3,11 @@ import cv2
 from Utils.Predictions_data import get_images, get_labels, get_bboxes, yolo2pascal, pascal2yolo, fill_labels
 from Features.Features_Manager import detect_features, features_matcher, ransac
 from Features.Features_labels import generate_labels, associate_points
-from Utils.config_labels import config
 import os
 import yaml
 
 
-####### ORGANIZE IMAGES AND LABELS ########
+####### ORGANIZE IMAGES AND LABELS WITH PATHS ########
 with open("./Config/config_labels.yaml", "r") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)
 

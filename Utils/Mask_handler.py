@@ -15,6 +15,15 @@ def visualize_photo(photo):
 
 
 def reshape_image(image, new_dim=(1920, 1080)):
+    """
+    Function to reshape the image to any dimension
+
+    Args:
+        image (image): number of nodes (instances) at each frame
+        new_dim (tuple): choose if plot or not the graph once created
+    Returns:
+        new_image (image): resized image to the desired dimensions
+    """
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     print('Original Dimensions : ', image.shape)
     new_image = image[:][224:(1024 - 224)]

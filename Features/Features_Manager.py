@@ -4,7 +4,21 @@ from operator import itemgetter
 from math import sqrt
 
 
-def detect_features(image, bboxes=[], detector='surf', plot=False):
+def detect_features(image, bboxes=[], detector='surf'):
+    """
+    Extract the features from the image, but only those inside the identifies bounding
+    boxes. Different kind of features can be used
+
+    Args:
+        image (image):          image on which the features have to be extracted
+        bboxes (list):          list of the bounding boxes from which the features have to
+                                be extracted
+        detector (str):         string that identifies the kind of detector to be used
+    Returns:
+        keypoints (tuple):      tuple containing the position of the features extracted
+        descriptors (array):    list of the descriptors associated to the keypoints extracted
+                                using the chosen extractor
+    """
     if detector == 'surf':
         # Detect the keypoints using SURF Detector
         minHessian = 100
@@ -31,6 +45,23 @@ def detect_features(image, bboxes=[], detector='surf', plot=False):
 
 
 def features_matcher(kp1, kp2, des1, des2, good_ratio=0.7, matcher='brute_force'):
+    """
+    Function that matches the features from the previous frame to the next one
+
+    Args:
+        kp1 (list):             list containing the keypoints extracted in the previous frame
+        kp2 (list):             list of the keypoints extracted in the current frame
+        des1 (list):            list of the descriptors associated to the keypoints extracted in the
+                                previous frame
+        des2 (list):            list of the descriptors associated to the keypoints extracted in the
+                                current frame
+        good_ratio (float):     distance between features to detect if a match is good or not
+        matcher (str):          matcher used to match the features in the two frames
+    Returns:
+        good (list):            list containing the good matches (distance less than good_ratio)
+        matched_points1 (list): list of the points in the previous frame for which a match has been found
+        matched_points2 (list): list of the points in the current frame for which a match has been found
+    """
     if matcher == 'brute_force':
         bf = cv2.BFMatcher(cv2.NORM_L2, crossCheck=True)
 
@@ -52,6 +83,25 @@ def features_matcher(kp1, kp2, des1, des2, good_ratio=0.7, matcher='brute_force'
 
 
 def ransac(kp1, kp2, good, mp1, mp2, MIN_MATCH_COUNT=10, inlier_threshold=10.0):
+    """
+    implementation of the RANSAC algorithm to find only the good matches, and eliminate all the
+    outliers
+
+    Args:
+        kp1 (list):                 list containing the keypoints extracted in the previous frame
+        kp2 (list):                 list of the keypoints extracted in the current frame
+        good (list):                list of the good matches between previous and current frame
+        mp1 (list):                 list of the points matched in the previous frame
+        mp2 (float):                list of the points matched in the current frame
+        MIN_MATCH_COUNT (int):      minimum number of matches to be found to establish a correspondance,
+                                    otherwise the match is dropped
+        inlier_threshold (float):   threshold to establish if a match is between two inliers or there is an
+                                    outlier
+    Returns:
+        good_matches (list):        list containing the good matches
+        inliers1 (list):            list of inliers in the previous frame for which a match has been found
+        inliers2 (list):            list of inliers in the current frame for which a match has been found
+    """
     if len(good) > MIN_MATCH_COUNT:
         src_pts = np.float32([kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
         dst_pts = np.float32([kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
@@ -77,4 +127,3 @@ def ransac(kp1, kp2, good, mp1, mp2, MIN_MATCH_COUNT=10, inlier_threshold=10.0):
             inliers2.append(mp2[i])
 
     return good_matches, inliers1, inliers2
-
