@@ -4,4 +4,4 @@ label_path: './Datasets/Validation/Detection/Labels/'
 ####### DEFINE SKIPS ########
 skips: [2, 5]
 ####### PATH WHERE TO SAVE RESULTS ########
-results_path: './Porcodio/Ensomma_skip'
+results_path: './Results/Ensomma_skip'
