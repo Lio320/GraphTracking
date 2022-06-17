@@ -14,13 +14,13 @@ https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseud
 
 <strong>Installation with dependencies:</strong>
 
-* <em>Python dependencies:</em>
+* <font size="5"><em>Python dependencies:</em></font>\
 To test the tool is necessary to clone this repository and to install the requirements with the python dependencies:
 ```
 pip3 install -r requirements.txt
 ```
 
-* <em>OpenCV</em>
+* <em>OpenCV</em>\
 It is necessary to install OpenCV from source to enable the NON-FREE algorithm (like the SURF features extractor). Refer to the follwing link for the instructions:
 https://docs.opencv.org/3.4/d7/d9f/tutorial_linux_install.html
 
