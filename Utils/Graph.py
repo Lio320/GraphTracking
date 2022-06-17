@@ -26,7 +26,6 @@ def generate_graph(nodes, plot=False):
     for (i, layer) in enumerate(layers):
         G.add_nodes_from(layer, layer=i)
     pos = nx.multipartite_layout(G, subset_key="layer")
-    print(type(G))
 
     if plot:
         plt.axis("auto")
@@ -84,13 +83,13 @@ def filter_graph(G):
                 G.remove_edge(u, v)
     return G
 
-
-def explore_edge(G, node, banned):
+def explore_edge(G, node, path, banned):
     """
     Function to extract the paths of all nodes in the graph
 
     Args:
         G (nx Graph): Graph to extract paths
+        path (list): list with nodes of the current path to explore
         node (nx Node): choose if plot or not the graph once created
         banned (list): list of the nodes visited
     Returns:
@@ -99,7 +98,6 @@ def explore_edge(G, node, banned):
     """
     out_edge = G.out_edges(node, data=True)
     edge = list(out_edge)
-    path = []
     if edge:
         for value in edge:
             u = value[0]

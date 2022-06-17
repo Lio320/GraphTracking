@@ -8,7 +8,7 @@ import Utils.SfM_Data as sfmData
 from collections import defaultdict
 import cv2
 from Tracker.Tracker import draw_tracked_paths, tracker_memory
-from Utils.Data_Management import get_images, yolo2mot, get_labels
+from Utils.Data_Management import get_images, yolo2mot, get_labels, plot_yolo
 import os
 import yaml
 
@@ -68,6 +68,7 @@ for i, frame_id in enumerate(ids_list):
     image_path = images_paths[i]
     image = cv2.imread(image_path)
     num_nodes, bboxes = predData.get_bboxes(bbox_path)
+
     bboxes = predData.yolo2pascal(image, bboxes)
     points = frame_points_association[frame_id]
 
@@ -81,17 +82,22 @@ colors = [G[u][v]['color'] for u, v in edges]
 ######## FILTER EDGES BY WEIGHTS ########
 G = Graph.filter_graph(G)
 
+# nx.draw(G, pos, node_size=3, edge_color=colors, arrows=True, with_labels=True)
+# plt.show()
+
+
 ######## EXTRACT PATHS LONGER THAN 5 FRAMES ########
 # At this point there is only one edge that goes out each node
 nodes = G.nodes()
-print(type(nodes))
 banned = []
 paths = []
 for node in nodes:
+    path = []
     if node not in banned:
-        path, banned = Graph.explore_edge(G, node, banned)
-    if len(path) > 5:
+        Graph.explore_edge(G, node, path, banned)
+    if len(path) >= 5:
         paths.append(path)
+
 
 ######## GENERATE NEW GRAPH WITH PATHS ONLY LONGER THAN 5 FRAMES ########
 G2, pos2, layers2 = Graph.generate_graph(nodes_mantain, plot=False)
@@ -109,8 +115,8 @@ for i, path in enumerate(paths):
     paths_dict[i] = path[:-1]
 edges = G2.edges()
 colors = [G2[u][v]['color'] for u, v in edges]
-nx.draw(G2, pos2, node_size=3, edge_color=colors, arrows=True, with_labels=True)
-plt.show()
+# nx.draw(G2, pos2, node_size=3, edge_color=colors, arrows=True, with_labels=True)
+# plt.show()
 
 ######## DRAW AND SAVE TRACKED PATHS WITH IMAGES ########
 curr_node = 0
@@ -137,3 +143,5 @@ for i, frame_id in enumerate(ids_list):
         with open(save_txt, 'a') as f:
             f.write(str(i+1) + ', ' + str(ids[k]) + ', ' + str(bbox)[1:-1] + ', -1, -1, -1, -1' + '\n')
     curr_node += num_nodes
+
+print('Images saved in:', save_images)

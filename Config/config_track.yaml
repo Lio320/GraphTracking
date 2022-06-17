@@ -1,10 +1,10 @@
 ####### PATHS TO SfM RECONSTRUCTION MODEL ########
-camera_path: './Colmap/Video_validation/ModelText/cameras.txt'
-images_path: './Colmap/Video_validation/ModelText/images.txt'
-points_path: './Colmap/Video_validation/ModelText/points3D.txt'
+camera_path: './Datasets/Santos/ModelText/cameras.txt'
+images_path: './Datasets/Santos/ModelText/images.txt'
+points_path: './Datasets/Santos/ModelText/points3D.txt'
 ####### GET IMAGES AND LABELS PATHS INSIDE THE FOLDER ########
-image_path: './Detection_frames/Video_validation/Images/'
-label_path: './Detection_frames/Video_validation/aug/labels/'
-####### PATHS TO SAVE THE RESULTS (IMAGES AND TRACKING) ########
-save_images: './Video_Results/Video_validation/Tracked_Images_memory/'
+image_path: './Datasets/Santos/Detection/Images/'
+label_path: './Datasets/Santos/Detection/Labels/'
+####### PATHS TO SAVE THE RESULTS (IMAGES AND TRACKING TXT FILE) ########
+save_images: './Video_Results/Santos/Tracked_Images/'
 save_txt: './Uva_tracker.txt'
