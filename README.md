@@ -4,11 +4,13 @@ Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaborati
 
 * Tracking algorithm which exploits:
     * detection information (images and bounding boxes)
-    * 3D information from Structure from Motion (SfM)
-* Pseudo-labels generation for semi-supervised learning pipeline
+    * 3D information from Structure from Motion (SfM) using COLMAP
+* Pseudo-labels generation for semi-supervised learning pipeline levaraging:
+    * SURF feature extractor (provided by OpenCV)
+    * 3D information from Structure from Motion (SfM) using COLMAP
 
-The paper can be obtained to the following link:
-* Link to the paper: https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseudo-Label_Generation_for_Agricultural_Robotics_Applications_CVPRW_2022_paper.html
+The <strong> paper </strong> can be obtained to the following link:
+https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseudo-Label_Generation_for_Agricultural_Robotics_Applications_CVPRW_2022_paper.html
 
 Scripts:
 * <strong>Bboxes_Tracker:</strong> Tracking algorithm for grape instances, requires a COLMAP model of the scene and the predictions obtained by a detector (YOLO in the case of this project). Need to modify the configuration file in Config/config_track.yaml with the paths required by your project.
