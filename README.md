@@ -12,6 +12,36 @@ Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaborati
 The <strong> paper </strong> can be obtained to the following link:
 https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseudo-Label_Generation_for_Agricultural_Robotics_Applications_CVPRW_2022_paper.html
 
+<strong>Installation with dependencies:</strong>
+
+* <em>Python dependencies:</em>
+To test the tool is necessary to clone this repository and to install the requirements with the python dependencies:
+```
+pip3 install -r requirements.txt
+```
+
+* <em>OpenCV</em>
+It is necessary to install OpenCV from source to enable the NON-FREE algorithm (like the SURF features extractor). Refer to the follwing link for the instructions:
+https://docs.opencv.org/3.4/d7/d9f/tutorial_linux_install.html
+
+What worked for me (but may not work for you was to compile using the following CMAKE flags):
+```
+cmake -D CMAKE_BUILD_TYPE=RELEASE
+      -D CMAKE_INSTALL_PREFIX=/usr/local
+      -D INSTALL_C_EXAMPLES=ON
+      -D INSTALL_PYTHON_EXAMPLES=ON
+      -D OPENCV_GENERATE_PKGCONFIG=ON
+      -D OPENCV_ENABLE_NONFREE=ON
+      -D OPENCV_EXTRA_MODULES_PATH=~/opencv_build/opencv_contrib/modules
+      -D BUILD_EXAMPLES=ON
+      -D PYTHON3_PACKAGES_PATH=/usr/lib/python3/dist-packages ..
+```
+
+* <em>COLMAP</em>
+Refer to the following link for the installation of COLMAP:
+https://colmap.github.io/install.html
+
+
 <strong>Scripts</strong>:
 * <strong>Bboxes_Tracker:</strong> Tracking algorithm for grape instances, requires a COLMAP model of the scene and the predictions obtained by a detector (YOLO in the case of this project). Need to modify the configuration file in Config/config_track.yaml with the paths required by your project.
 ```
