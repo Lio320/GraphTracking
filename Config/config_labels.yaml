@@ -4,4 +4,8 @@ label_path: './Datasets/Validation/Detection/Labels/'
 ####### DEFINE SKIPS ########
 skips: [2, 5]
 ####### PATH WHERE TO SAVE RESULTS ########
+<<<<<<< HEAD
 results_path: './Results_Feat_Pseudolabels/Skip_'
+=======
+results_path: './Results/Ensomma_skip'
+>>>>>>> 41531b30d0c8f6ff09b6e101cacf2c632490baa1
