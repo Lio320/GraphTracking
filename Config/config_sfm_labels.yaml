@@ -1,11 +1,11 @@
 ####### PATHS TO SfM RECONSTRUCTION MODEL ########
-camera_path: './Colmap/Video_validation/ModelText/cameras.txt'
-images_path: './Colmap/Video_validation/ModelText/images.txt'
-points_path: './Colmap/Video_validation/ModelText/points3D.txt'
+camera_path: './Datasets/Validation/ModelText/cameras.txt'
+images_path: './Datasets/Validation/ModelText/images.txt'
+points_path: './Datasets/Validation/ModelText/points3D.txt'
 ####### PATHS TO IMAGES AND LABELS INSIDE THE FOLDER ########
-image_path: './Detection_frames/Video_validation/Images/'
-label_path: './Detection_frames/Video_validation/aug/labels/'
+image_path: './Datasets/Validation/Detection/Images/'
+label_path: './Datasets/Validation/Detection/Labels/'
 ####### PATH TO SAVE THE RESULTS (IMAGES AND TRACKING) ########
-results_path: './Pseudolabels/Video_ionut/SfmLabels/SfmLabels_skip'
+results_path: './Results__Pseudolabels/Validation/SfmLabels/SfmLabels_skip'
 ####### LIST DEFINING THE SKIPS VALUE FOR GENERATING PSEUDOLABELS ########
 skips: [2, 5]
