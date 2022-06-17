@@ -14,7 +14,7 @@ https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseud
 
 <strong>Installation with dependencies:</strong>
 
-* <font size="27"><em>Python dependencies:</em></font>\
+* <em>Python dependencies:</em>\
 To test the tool is necessary to clone this repository and to install the requirements with the python dependencies:
 ```
 pip3 install -r requirements.txt
