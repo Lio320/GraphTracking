@@ -23,7 +23,7 @@ points_path = cfg['points_path']
 image_path = cfg['image_path']
 label_path = cfg['label_path']
 save_images = cfg['save_images']
-save_txt = cfg['save_txt'] 
+save_txt = cfg['save_txt']
 
 ####### ASSOCIATE POINTS ID WITH IMAGES ########
 points_cam_association = sfmData.get_points_3d(points_path)

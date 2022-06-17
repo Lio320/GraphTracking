@@ -6,7 +6,7 @@ from Features.Features_labels import generate_labels, associate_points
 import os
 import yaml
 
-
+print(dir(cv2))
 ####### ORGANIZE IMAGES AND LABELS WITH PATHS ########
 with open("./Config/config_labels.yaml", "r") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)

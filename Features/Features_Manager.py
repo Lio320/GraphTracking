@@ -44,7 +44,7 @@ def detect_features(image, bboxes=[], detector='surf'):
     return keypoints, descriptors
 
 
-def features_matcher(kp1, kp2, des1, des2, good_ratio=0.7, matcher='brute_force'):
+def features_matcher(kp1, kp2, des1, des2, good_ratio=0.6, matcher='brute_force'):
     """
     Function that matches the features from the previous frame to the next one
 
@@ -82,7 +82,7 @@ def features_matcher(kp1, kp2, des1, des2, good_ratio=0.7, matcher='brute_force'
     return good, matched_points1, matched_points2
 
 
-def ransac(kp1, kp2, good, mp1, mp2, MIN_MATCH_COUNT=10, inlier_threshold=10.0):
+def ransac(kp1, kp2, good, mp1, mp2, MIN_MATCH_COUNT=2, inlier_threshold=10.0):
     """
     implementation of the RANSAC algorithm to find only the good matches, and eliminate all the
     outliers

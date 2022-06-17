@@ -1,5 +1,3 @@
-
-
 ####### PATHS TO SfM RECONSTRUCTION MODEL ########
 camera_path: './Colmap/Video_validation/ModelText/cameras.txt'
 images_path: './Colmap/Video_validation/ModelText/images.txt'
