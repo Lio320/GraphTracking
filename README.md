@@ -2,7 +2,9 @@
 
 Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaboration with Canopies Project.
 
-* Tracking algorithm that exploits detection (YOLO) and 3D information 
+* Tracking algorithm which exploits:
+    * detection information (images and bounding boxes)
+    * 3D information from Structure from Motion (SfM)
 * Pseudo-labels generation for semi-supervised learning pipeline
 
 The paper can be obtained to the following link:
