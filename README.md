@@ -1,7 +1,7 @@
 # <strong> GraphTracking </strong> 
 
 <img src="./Figures/Logos/canopies.svg"  height = "175" /> 
-<img src="./Figures/Logos/sapienza.png" height = "175" />
+<img src="./Figures/Logos/sapienza.png" height = "150" />
 
 Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaboration with Canopies Project.
     
