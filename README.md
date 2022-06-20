@@ -1,7 +1,7 @@
 # <strong> GraphTracking </strong> 
 
 <p>
-<img src="./Figures/Logos/canopies.svg"  height = "175" />
+<img src="./Figures/Logos/canopies.svg"  height = "165" />
 <img src="./Figures/Logos/sapienza.png" height = "175" />
 </p>
 
@@ -20,14 +20,16 @@ https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseud
 
 ## <strong> Installation: </strong>
 
+To test the tool is necessary to clone this repository and to install the required dependencies.
+
 * ### <strong> Python dependencies: </strong>
-    To test the tool is necessary to clone this repository and to install the requirements with the python dependencies:
+    To install the python dependencies is sufficient to execute the following command:
     ```
     pip3 install -r requirements.txt
     ```
 
 * ### <strong> OpenCV: </strong>
-    It is necessary to install OpenCV from source to enable the NON-FREE algorithm (like the SURF features extractor). Refer to the follwing link for the instructions:
+    It is necessary to install the compiled version of OpenCV from source, in order to enable the NON-FREE algorithms, like the <em>xfeatures2d</em> package which contains the SURF features extractor used in this project. Refer to the follwing link for the instructions:
     https://docs.opencv.org/3.4/d7/d9f/tutorial_linux_install.html
 
     What worked for me (but may not work for you) was to compile using the following CMAKE flags:
@@ -46,6 +48,8 @@ https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseud
 * ### <strong> COLMAP: </strong>
     Refer to the following link for the installation of COLMAP:
     https://colmap.github.io/install.html
+
+    COLMAP is not strictly necessary to 
 
 ## <strong>Demo</strong>:
 
