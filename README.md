@@ -43,11 +43,17 @@ https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseud
 
 ## <strong>Demo</strong>:
 
-We provide some small demo to generate pseudo-labels from the features extracted by SURF or from the SfM algorithm (COLMAP), together with a demo of the tracker. The images together with the detection labels extracted using YOLOv5 are saved in the <em>./Datasets/dataset_name/Detection</em> folder, while the 3D models are in the <em>./Datasets/dataset_name/ModelText</em> folder. We provide a total of 3 datasets to test the demo, in order to run the tracker demo use the command:
+We provide some small demo to generate pseudo-labels from the features extracted by SURF or from the SfM algorithm (COLMAP), together with a demo of the tracker. The images together with the detection labels extracted using YOLOv5 are saved in the <em>./Datasets/dataset_name/Detection</em> folder, while the 3D models are in the <em>./Datasets/dataset_name/ModelText</em> folder. In order to run the tracker demo please use the command:
 
 ```
 python3 Bboxes_Tracker.py
 ```
+<p float="left">
+  <img src="./Figures/Tracker/frame-1.jpg" width="300" />
+  <img src="./Figures/Tracker/frame-11.jpg" width="300" /> 
+  <img src="./Figures/Tracker/frame-21.jpg" width="300" />
+</p>
+![demo](./Figures/Tracker/frame-1.jpg) ![demo](./Figures/Tracker/frame-11.jpg) ![demo](./Figures/Tracker/frame-21.jpg)
 
 To run the pseudo-labels generation demo using the features extracted by SURF use the command:
 
@@ -60,16 +66,18 @@ To run the pseudo-labels generation demo leveraging the Structure from Motion (S
 python3 Generate_SfM_Labels.py
 ```
 
+We provide a total of 3 demo datasets, by default the commands will use the <em>Validation</em> one. If you want to test the other two, namely <em>Santos</em> and <em>Test</em> is necessary to change the paths in the configuration files in the <em>./Config/</em> folder. In particular modify <em>./Config/config_track.yaml/</em> for the tracker, <em>./Config/config_features_labels.yaml/</em> for the pseudo-labels generator with SURF features, while for the one with SfM is necessary to modify <em>./Config/config_sfm_labels.yaml</em>.
 
 ## <strong>Scripts</strong>:
+In this section we provide a brief explaination of the main scripts contained in this repository, to give a general idea of their usage.
 * ### <strong>Bboxes_Tracker:</strong> 
-    Tracking algorithm for grape instances, requires a COLMAP model of the scene and the predictions obtained by a detector (YOLO in the case of this project). Need to modify the configuration file in Config/config_track.yaml with the paths required by your project.
+    Tracking algorithm for grape instances. It requires a SfM model of the scene and the predictions obtained by a detector (YOLO in the case of this project). The SfM model Need to modify the configuration file in <em>./Config/config_track.yaml/</em> with the paths required by your project.
     ```
     python3 Bboxes_Tracker.py
     ```
 * ### <strong>Generate_Features_Labels:</strong>
     Algorithm to generate the pseudo labels to finetune the detector on the target set, using the features extracted using SURF. It requires the prediction of the detector to finetune (YOLO in the case of this project), and to have installed OpenCV by compiling him to support also the non-free features.
-    Is necessary to modify the configuration file in Config/config_labels.yaml with the paths required by your project.
+    Is necessary to modify the configuration file in <em>./Config/config_features_labels.yaml/</em> with the paths required by your project.
     ```
     python3 Generate_Features_Labels.py
     ```
