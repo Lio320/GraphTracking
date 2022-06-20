@@ -1,10 +1,10 @@
 ####### PATHS TO SfM RECONSTRUCTION MODEL ########
-camera_path: './Datasets/Santos/ModelText/cameras.txt'
-images_path: './Datasets/Santos/ModelText/images.txt'
-points_path: './Datasets/Santos/ModelText/points3D.txt'
+camera_path: './Datasets/Validation/ModelText/cameras.txt'
+images_path: './Datasets/Validation/ModelText/images.txt'
+points_path: './Datasets/Validation/ModelText/points3D.txt'
 ####### GET IMAGES AND LABELS PATHS INSIDE THE FOLDER ########
-image_path: './Datasets/Santos/Detection/Images/'
-label_path: './Datasets/Santos/Detection/Labels/'
+image_path: './Datasets/Validation/Detection/Images/'
+label_path: './Datasets/Validation/Detection/Labels/'
 ####### PATHS TO SAVE THE RESULTS (IMAGES AND TRACKING TXT FILE) ########
-save_images: './Video_Results/Santos/Tracked_Images/'
+save_images: './Video_Results/Validation/Tracked_Images/'
 save_txt: './Uva_tracker.txt'

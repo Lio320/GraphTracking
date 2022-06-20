@@ -7,7 +7,7 @@ import os
 import yaml
 
 ####### ORGANIZE IMAGES AND LABELS WITH PATHS ########
-with open("./Config/config_labels.yaml", "r") as f:
+with open("./Config/config_features_labels.yaml", "r") as f:
     cfg = yaml.load(f, Loader=yaml.FullLoader)
 
 image_path = cfg['image_path']
