@@ -1,7 +1,7 @@
 # <strong> GraphTracking </strong> 
 
 <p>
-<img src="./Figures/Logos/canopies.svg"  height = "165" />
+<img src="./Figures/Logos/canopies.svg"  height = "175" />
 <img src="./Figures/Logos/sapienza.png" height = "175" />
 </p>
 
