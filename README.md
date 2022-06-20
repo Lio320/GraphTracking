@@ -1,7 +1,9 @@
 # <strong> GraphTracking </strong> 
 
-<img src="./Figures/Logos/canopies.svg"  height = "175" /> 
-<img src="./Figures/Logos/sapienza.png" height = "150" />
+<p>
+<img src="./Figures/Logos/canopies.svg"  height = "175" />
+<img src="./Figures/Logos/sapienza.png" height = "175" />
+</p>
 
 Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaboration with Canopies Project.
     
@@ -15,8 +17,6 @@ Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaborati
 
 The <strong> paper </strong> can be obtained to the following link:
 https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseudo-Label_Generation_for_Agricultural_Robotics_Applications_CVPRW_2022_paper.html
-
-## <strong> Introduction: </strong>
 
 ## <strong> Installation: </strong>
 
