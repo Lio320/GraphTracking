@@ -75,9 +75,9 @@ In this section we provide a brief explaination of the main scripts contained in
     The tracker is able to assign the same ID to the same instances in different frames, as visually explained by the images.
 
     <p float="left">
-    <img src="./Figures/Tracker/frame-1.jpg" width="450" />
-    <img src="./Figures/Tracker/frame-11.jpg" width="450" /> 
-    <img src="./Figures/Tracker/frame-21.jpg" width="450" />
+    <img src="./Figures/Tracker/frame-1.jpg" width="310" />
+    <img src="./Figures/Tracker/frame-11.jpg" width="310" /> 
+    <img src="./Figures/Tracker/frame-21.jpg" width="310" />
     </p>
 
 * ### <strong>Generate_Features_Labels:</strong>
