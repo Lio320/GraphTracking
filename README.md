@@ -49,7 +49,9 @@ To test the tool is necessary to clone this repository and to install the requir
     Refer to the following link for the installation of COLMAP:
     https://colmap.github.io/install.html
 
-    COLMAP is not strictly necessary to 
+    COLMAP is not strictly necessary to the tool, since it is used to provide a Structure from Motion (SfM) reconstruction of the scene obtained by the videos, as .txt files. Is also possible to use other methods to build the SfM model as a .txt file, but the one I strongly reccomend is COLMAP. The instructions on how to extract the model from a sequences of images is given to the following link:
+    https://colmap.github.io/tutorial.html
+
 
 ## <strong>Demo</strong>:
 
