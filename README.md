@@ -12,6 +12,8 @@ Master thesis of Leonardo Saraceni at Sapienza University of Rome in collaborati
 The <strong> paper </strong> can be obtained to the following link:
 https://openaccess.thecvf.com/content/CVPR2022W/AgriVision/html/Ciarfuglia_Pseudo-Label_Generation_for_Agricultural_Robotics_Applications_CVPRW_2022_paper.html
 
+## <strong> Introduction: </strong>
+
 ## <strong> Installation: </strong>
 
 * ### <strong> Python dependencies: </strong>
@@ -75,8 +77,8 @@ In this section we provide a brief explaination of the main scripts contained in
     The tracker is able to assign the same ID to the same instances in different frames, as visually explained by the images.
 
     <p float="left">
-    <img src="./Figures/Tracker/frame-1.jpg" width="400" />
-    <img src="./Figures/Tracker/frame-11.jpg" width="400" /> 
+    <img src="./Figures/Tracker/frame-1.jpg" width="45%" />
+    <img src="./Figures/Tracker/frame-11.jpg" width="45%" /> 
     </p>
 
 * ### <strong>Generate_Features_Labels:</strong>
